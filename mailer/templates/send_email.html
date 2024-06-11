@@ -1,0 +1,26 @@
+<!-- templates/send_email.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Send Email</h2>
+  <form method="post">
+    {% csrf_token %}
+    <p>
+      <label for="subject">Subject:</label>
+      <input type="text" id="subject" name="subject" required>
+    </p>
+    <p>
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" required></textarea>
+    </p>
+    <p>
+      <label for="from_email">From Email:</label>
+      <input type="email" id="from_email" name="from_email" required>
+    </p>
+    <p>
+      <label for="recipient_list">Recipient List (comma-separated):</label>
+      <input type="text" id="recipient_list" name="recipient_list" required>
+    </p>
+    <button type="submit">Send Email</button>
+  </form>
+{% endblock %}

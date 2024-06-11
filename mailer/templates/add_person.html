@@ -1,0 +1,13 @@
+<!-- add_person.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add Person</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Person</button>
+    </form>
+    <a href="{% url 'person_list' %}">View All Persons</a>
+
+{% endblock %}

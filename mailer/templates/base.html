@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+    <title>{% block title %}MailMaster{% endblock %}</title>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-blue-500 p-4">
+        <div class="container mx-auto">
+            <a href="{% url 'home' %}" class="text-white text-lg">MailMaster</a>
+            <a href="{% url 'send_email' %}" class="text-white ml-4">Send Email</a>
+             
+        </div>
+    </nav>
+    <div class="container mx-auto mt-8">
+        {% block content %}{% endblock %}
+    </div>
+    <footer class="bg-gray-800 text-white p-4 mt-8">
+        <div class="container mx-auto text-center">
+            &copy; 2024 MailMaster. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
