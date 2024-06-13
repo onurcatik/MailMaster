@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<body class="bg-gray-100 min-h-screen py-10">
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-blue-600">Recipient List</h1>
+            <a href="{% url 'recipient_add' %}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">Add Recipient</a>
+        </div>
+        <ul class="bg-white shadow-md rounded-lg divide-y divide-gray-200">
+            {% for recipient in recipients %}
+            <li class="p-4 flex justify-between items-center">
+                <span>{{ recipient.name }} - {{ recipient.email }}</span>
+                <div class="space-x-2">
+                    <a href="{% url 'recipient_edit' recipient.pk %}" class="text-blue-500 hover:underline">Edit</a>
+                    <a href="{% url 'recipient_delete' recipient.pk %}" class="text-red-500 hover:underline">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+{% endblock %}

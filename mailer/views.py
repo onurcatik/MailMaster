@@ -1,51 +1,86 @@
-from django.shortcuts import render, redirect
-from .tasks import send_mass_email
-from .forms import PersonForm
-from .models import Person
-from django.http import HttpResponse
+import os
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse
+from django.template.loader import render_to_string
+from django.core.mail import EmailMultiAlternatives
+from django.core.files.storage import FileSystemStorage
+from django.template.loader import get_template
+from django.conf import settings
+from .models import Recipient
+from .forms import RecipientForm
+
+
+# Define a directory to store email templates
+TEMPLATE_STORAGE_DIR = os.path.join(settings.BASE_DIR, 'email_templates')
+
+'''
+def recipient_list_view(request):
+    recipients = Recipient.objects.all()
+    return render(request, 'recipient_list.html', {'recipients': recipients})
+
+'''
+def recipient_list_view(request):
+    recipients = Recipient.objects.all()
+    return render(request, 'dashboard.html', {'recipients': recipients})
+
+
+def recipient_add_view(request):
+    if request.method == 'POST':
+        form = RecipientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('recipient_list')
+    else:
+        form = RecipientForm()
+    return render(request, 'recipient_form.html', {'form': form})
+
+def recipient_edit_view(request, pk):
+    recipient = get_object_or_404(Recipient, pk=pk)
+    if request.method == 'POST':
+        form = RecipientForm(request.POST, instance=recipient)
+        if form.is_valid():
+            form.save()
+            return redirect('recipient_list')
+    else:
+        form = RecipientForm(instance=recipient)
+    return render(request, 'recipient_form.html', {'form': form})
+
+def recipient_delete_view(request, pk):
+    recipient = get_object_or_404(Recipient, pk=pk)
+    if request.method == 'POST':
+        recipient.delete()
+        return redirect('recipient_list')
+    return render(request, 'recipient_delete.html', {'recipient': recipient})
 
 def send_email_view(request):
     if request.method == 'POST':
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        from_email = request.POST.get('from_email')
-        recipient_list = request.POST.getlist('recipient_list')
+        recipients = Recipient.objects.all()
         
-        send_mass_email.delay(subject, message, from_email, recipient_list)
+        # Render email content
+        subject = "Monthly Newsletter"
+        from_email = settings.EMAIL_HOST_USER
+        text_content = 'This is an important message.'
+        
+        for recipient in recipients:
+            html_content = render_to_string('newsletter.html', {'recipient_name': recipient.name})
+            email = EmailMultiAlternatives(subject, text_content, from_email, [recipient.email])
+            email.attach_alternative(html_content, "text/html")
+            email.send(fail_silently=False)
+        
         return redirect('success_page')
 
     return render(request, 'send_email.html')
 
-def schedule_email(request):
-    return render(request, 'schedule_email.html')
 
 def success_page(request):
     return render(request, 'success.html')
 
-"""
 
-def add_person(request):
-    if request.method == 'POST':
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('person_list')  # Redirect to a view that lists persons
-    else:
-        form = PersonForm()
-    return render(request, 'add_person.html', {'form': form})
+def base_page(request):
+    return render(request, 'base.html')
 
-"""
 
-def add_person(request):
-    if request.method == 'POST':
-        form = PersonForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('success_page')
-    else:
-        form = PersonForm()
-    return render(request, 'add_person.html', {'form': form})
 
-def person_list(request):
-    persons = Person.objects.all()
-    return render(request, 'person_list.html', {'persons': persons})
+
+
+  

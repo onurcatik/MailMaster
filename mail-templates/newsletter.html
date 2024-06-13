@@ -67,22 +67,22 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Newsletter Title</h1>
+    <div class="container mx-auto px-4 py-8">
+        <div class="header mb-6">
+            <h1 class="text-3xl font-bold">Newsletter Title</h1>
         </div>
         <div class="content">
-            <h2>Hello, [Recipient's Name]!</h2>
-            <p>Welcome to our monthly newsletter. Here, we share the latest updates, tips, and special offers just for you.</p>
-            <p>We hope you enjoy reading it. If you have any feedback or suggestions, feel free to reply to this email.</p>
-            <a href="[Call-to-Action Link]" class="button">Call to Action</a>
-            <h2>What's New</h2>
-            <p>Stay tuned for the latest news and updates from our team. We're excited to share with you what's coming next.</p>
-            <h2>Special Offers</h2>
-            <p>Don't miss out on our exclusive deals available only for our newsletter subscribers.</p>
+            <h2 class="text-2xl font-semibold mb-4">Hello, {{ recipient_name }}!</h2>
+            <p class="mb-4">Welcome to our monthly newsletter. Here, we share the latest updates, tips, and special offers just for you.</p>
+            <p class="mb-4">We hope you enjoy reading it. If you have any feedback or suggestions, feel free to reply to this email.</p>
+            <a href="[Call-to-Action Link]" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Call to Action</a>
+            <h2 class="text-xl font-semibold mt-6 mb-2">What's New</h2>
+            <p class="mb-4">Stay tuned for the latest news and updates from our team. We're excited to share with you what's coming next.</p>
+            <h2 class="text-xl font-semibold mt-6 mb-2">Special Offers</h2>
+            <p class="mb-4">Don't miss out on our exclusive deals available only for our newsletter subscribers.</p>
         </div>
-        <div class="footer">
-            <p>If you no longer wish to receive these emails, you can <a href="[Unsubscribe Link]">unsubscribe here</a>.</p>
+        <div class="footer mt-8">
+            <p class="mb-2">If you no longer wish to receive these emails, you can <a href="[Unsubscribe Link]" class="text-blue-500 hover:underline">unsubscribe here</a>.</p>
             <p>Company Name, Address, City, State, ZIP</p>
         </div>
     </div>

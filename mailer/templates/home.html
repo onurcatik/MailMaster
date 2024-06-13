@@ -3,6 +3,15 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<h1 class="text-2xl font-bold mb-4">Welcome to MailMaster</h1>
-<p>This is the home page. Use the navigation links to send or schedule emails.</p>
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <h1 class="text-4xl font-bold mb-4 text-center">Welcome to MailMaster</h1>
+    <p class="text-lg text-center mb-6">This is the home page. Use the navigation links to send or schedule emails.</p>
+    <nav>
+        <ul class="flex space-x-4">
+            <li><a href="{% url 'dashboard' %}" class="text-blue-500 hover:underline">Send Email</a></li>
+        </ul>
+    </nav>
+</div>
+
+
 {% endblock %}

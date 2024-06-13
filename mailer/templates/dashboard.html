@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Email Dashboard{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6">Email Dashboard</h1>
+        
+    <!-- Send Email Section -->
+    <div id="send-email" class="mb-8 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Send Email</h2>
+        <form method="post" action="{% url 'send_email' %}" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            
+            <div>
+                <label for="email_subject" class="block text-sm font-medium text-gray-700">Email Subject</label>
+                <input type="text" name="email_subject" id="email_subject" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+            </div>
+
+            <div>
+                <label for="email_template" class="block text-sm font-medium text-gray-700">Upload New Template</label>
+                <input type="file" name="email_template" id="email_template" class="mt-1 p-2 border border-gray-300 rounded-md w-full">
+            </div>
+    
+
+            <button type="submit" name="action" value="send" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Send</button>
+        </form>
+    </div>
+
+
+
+        
+        <!-- Recipient List Section -->
+        <div id="recipient-list" class="p-6 bg-white rounded-lg shadow-md">
+            <h2 class="text-2xl font-semibold mb-4">Recipient List</h2>
+
+            <ul class="space-y-2">
+                {% for recipient in recipients %}
+                <li class="flex justify-between items-center p-2 bg-gray-100 rounded">
+                    <span>{{ recipient.name }} - {{ recipient.email }}</span>
+                    <div class="space-x-2">
+                        <a href="{% url 'recipient_edit' recipient.pk %}" class="text-blue-500 hover:underline">Edit</a>
+                        <a href="{% url 'recipient_delete' recipient.pk %}" class="text-red-500 hover:underline">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            
+            <a href="{% url 'recipient_add' %}" class="inline-block mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Add Recipient</a>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,23 +1,50 @@
-{% load static %}
-
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-    <title>{% block title %}MailMaster{% endblock %}</title>
+    <title>{% block title %}Admin Login | MailMaster{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <nav class="bg-blue-500 p-4">
-        <div class="container mx-auto">
-            <a href="{% url 'home' %}" class="text-white text-lg">MailMaster</a>
-            <a href="{% url 'send_email' %}" class="text-white ml-4">Send Email</a>
-             
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="{% url 'home' %}" class="text-white text-lg">MailMaster</a>
+                <a href="{% url 'dashboard' %}" class="text-white ml-4">Dashboard</a>
+            </div>
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="text-white mr-4">Hello, {{ user.username }}</span>
+                    <a href="{% url 'admin:logout' %}" class="text-white">Logout</a>
+                {% else %}
+                    <a href="{% url 'admin:login' %}" class="text-white">Admin Login</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
     <div class="container mx-auto mt-8">
-        {% block content %}{% endblock %}
+        {% block content %}
+        <div class="max-w-md mx-auto bg-white p-8 border border-gray-300">
+            <h2 class="text-2xl font-bold mb-6 text-center">Admin Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="id_username" class="block text-gray-700 text-sm font-bold mb-2">Username:</label>
+                    <input type="text" name="username" id="id_username" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="mb-6">
+                    <label for="id_password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                    <input type="password" name="password" id="id_password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline">
+                </div>
+                <div class="flex items-center justify-between">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Login</button>
+                </div>
+            </form>
+        </div>
+        {% endblock %}
     </div>
     <footer class="bg-gray-800 text-white p-4 mt-8">
         <div class="container mx-auto text-center">
