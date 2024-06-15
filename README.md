@@ -14,7 +14,7 @@ To get started with the MailMaster project, follow these steps:
 
 1. **Clone the repository:**
     ```bash
-    git clone https://github.com/yourusername/mailmaster.git
+    git clone https://github.com/onurcatik/MailMaster.git
     cd mailmaster
     ```
 
